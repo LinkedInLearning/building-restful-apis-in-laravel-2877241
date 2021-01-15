@@ -6,17 +6,21 @@ use App\Http\Resources\PetitionCollection;
 use App\Http\Resources\PetitionResource;
 use App\Models\Petition;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 
 class PetitionController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
-     * @return \App\Http\Resources\PetitionCollection
+     * @return \Illuminate\Http\JsonResponse
      */
     public function index()
     {
-        return new PetitionCollection(Petition::all());
+//        return new PetitionCollection(Petition::all());
+//        return response()->json(new PetitionCollection(Petition::all()), 200);
+        return response()->json(new PetitionCollection(Petition::all()), Response::HTTP_OK);
+
     }
 
     /**
@@ -65,10 +69,12 @@ class PetitionController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  \App\Models\Petition  $petition
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function destroy(Petition $petition)
     {
-        //
+        $petition->delete();
+
+        return response()->json(null, 204);
     }
 }
